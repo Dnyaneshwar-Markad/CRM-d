@@ -15,11 +15,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-def quotation_form() :
-        
+def quotation_form():
     st.set_page_config(page_title="Quotation Form", layout="wide")
-
-    st.title("🧾 Quotation Form")
 
     # --- Quote Details ---
     st.subheader("Quote Details")
@@ -37,7 +34,7 @@ def quotation_form() :
 
     with col3:
         quote_stage = st.selectbox("Quote Stage", ["Draft", "Sent", "Approved", "Rejected"])
-        valid_until = st.date_input("Valid Until")  
+        valid_until = st.date_input("Valid Until")
         opportunity_name = st.text_input("Opportunity Name")
 
     # --- Address Details ---
@@ -99,10 +96,32 @@ def quotation_form() :
     st.markdown("---")
     col1, col2 = st.columns([1, 1])
     with col1:
-        if st.button("✅ Add and New"):
-            st.success("Quotation saved successfully! Ready for next entry.")
-            st.session_state.products = pd.DataFrame(columns=["Product", "Description", "Quantity", "UOM", "Unit Price", "Tax Code", "Subtotal"])
+        if st.button("✅ Save Quotation"):
+            # Save the quotation data to session state
+            new_quotation = {
+                "Subject": subject,
+                "Contact Name": contact_name,
+                "Organization Name": organization_name,
+                "Shipping": shipping,
+                "Campaign Source": campaign_source,
+                "Assign To": assign_to,
+                "Quote Stage": quote_stage,
+                "Valid Until": valid_until,
+                "Opportunity Name": opportunity_name,
+                "Billing Address": billing_address,
+                "Shipping Address": shipping_address,
+                "Products": st.session_state.products.to_dict("records"),
+                "Total": total,
+                "Status": "Draft",  # Default status
+            }
+            if "quotation_data" not in st.session_state:
+                st.session_state.quotation_data = []
+            st.session_state.quotation_data.append(new_quotation)
+            st.success("Quotation saved successfully!")
+            st.session_state.show_quotation_form = False  # Return to the quotation list
+
     with col2:
         if st.button("❌ Cancel"):
-            st.warning("Quotation cancelled.")
+            st.warning("Quotation creation cancelled.")
+            st.session_state.show_quotation_form = False  # Return to the quotation list
 

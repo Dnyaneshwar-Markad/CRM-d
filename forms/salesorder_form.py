@@ -19,8 +19,6 @@ def salesorder_form() :
         
     st.set_page_config(page_title="Order Form", layout="wide")
 
-    st.title("🧾 Order Form")
-
     # --- Quote Details ---
     st.subheader("Order Details")
     col1, col2, col3 = st.columns([1, 1, 1])  # Equal width columns
@@ -100,10 +98,28 @@ def salesorder_form() :
     st.markdown("---")
     col1, col2 = st.columns([1, 1])
     with col1:
-        if st.button("✅ Add and New"):
-            st.success("Order saved successfully! Ready for next entry.")
-            st.session_state.products = pd.DataFrame(columns=["Product", "Description", "Quantity", "UOM", "Unit Price", "Tax Code", "Subtotal"])
+        if st.button("✅ Save Sales Order"):
+            # Add the sales order to session state
+            new_sales_order = {
+                "Subject": subject,
+                "Contact Name": contact_name,
+                "Organization Name": organization_name,
+                "Shipping": shipping,
+                "Campaign Source": campaign_source,
+                "Assign To": assign_to,
+                "Due Until": due_until,
+                "Opportunity Name": opportunity_name,
+                "Price List": price_list,
+                "Status": "Pending",  # Default status
+            }
+            if "sales_data" not in st.session_state:
+                st.session_state.sales_data = []
+            st.session_state.sales_data.append(new_sales_order)
+            st.success("Sales order saved successfully!")
+            st.session_state.show_sales_form = False  # Return to the sales list
+
     with col2:
         if st.button("❌ Cancel"):
             st.warning("Order cancelled.")
+            st.session_state.show_sales_form = False  # Return to the sales list
 

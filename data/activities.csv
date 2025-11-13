@@ -1,0 +1,8 @@
+Activity,Recurrence,Type,Subject,Assigned To,Assigned By,Activity Stage,Number,BP Code,BP Type,BP Name,Contact Person,Priority,Meeting Location,Duration,Reminder,Start,End,Stage
+Phone Call,,General,ss,User,,Not Started,1364,Rushi Mandhule,Lead,,,Normal,,1h 0m,15 Minutes,2025-11-12 20:33:00,2025-11-12 21:33:00,Lead
+Meeting,,General,ggg`,User,,Not Started,1364,aa22,Lead,ss,,Normal,"pune, maharashtra",1h 0m,,2025-11-12 20:37:00,2025-11-12 21:37:00,Unknown
+Meeting,,General,jj,User,jj,Not Started,1364,hh,Lead,uu,,Normal,,1h 0m,,2025-11-12 20:37:00,2025-11-12 21:37:00,Unknown
+Phone Call,,General,dd,User,,Not Started,1364,,Lead,,,Normal,,1h 0m,15 Minutes,2025-11-13 09:59:00,2025-11-13 10:59:00,Unknown
+Meeting,,General,ss,User,,Not Started,1364,,Lead,akla,,Normal,,1h 0m,,2025-11-13 10:22:00,2025-11-13 11:22:00,Lead
+Phone Call,,General,aaaa,User,,Not Started,1364,,Lead,aaaa,,Normal,,1h 0m,,2025-11-13 10:28:00,2025-11-13 11:28:00,Lead Generation
+Meeting,None,Sales,cccc,User,,Not Started,1364,,Lead,ccccc,cxcx,Normal,,1h 0m,,2025-11-13 10:28:00,2025-11-13 11:28:00,Lead Generation
