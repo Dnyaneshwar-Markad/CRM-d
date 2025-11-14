@@ -34,25 +34,46 @@ if "service_sub" not in st.session_state:
 # callbacks to mark last-chosen main module (so UI knows which expander the user used)
 def select_sales():
     st.session_state.main_menu = "Sales"
+    st.session_state.inventory_sub = "Inventory"
+    st.session_state.management_sub = "Contacts"
+    st.session_state.service_sub = "Warenty & Services"
+
 
 def select_inventory():
     st.session_state.main_menu = "Inventory"
+    st.session_state.sales_sub = "Sales"
+    st.session_state.management_sub = "Contacts"
+    st.session_state.service_sub = "Warenty & Services"
+
+
+def select_master():
+    st.session_state.main_menu = "Customer Management"
+    st.session_state.sales_sub = "Sales"
+    st.session_state.inventory_sub = "Inventory"
+    st.session_state.service_sub = "Warenty & Services"
+
+
+def select_service():
+    st.session_state.main_menu = "Warenty & Services"
+    st.session_state.sales_sub = "Sales"
+    st.session_state.inventory_sub = "Inventory"
+    st.session_state.management_sub = "Contacts"
+
 
 def go_home():
     st.session_state.main_menu = "Home"
-    
-def select_service():
-    st.session_state.main_menu = "Warenty & Services"
-    
-def select_lead():
-    st.session_state.main_menu = "Customer Management"
+    st.session_state.sales_sub = "Sales"
+    st.session_state.inventory_sub = "Inventory"
+    st.session_state.management_sub = "Contacts"
+    st.session_state.service_sub = "Warenty & Services"
+
 
 # Sidebar: Home button + expanders for Sales, Activities, Inventory
 st.sidebar.title("Modules")
 st.sidebar.button("Home", on_click=go_home)
 
 with st.sidebar.expander("Sales", expanded=False):
-    sales_options = ["Leads", "Quotations", "Orders"]
+    sales_options = ["Business Leads", "Quotations", "Orders"]
     sales_sub = st.selectbox(
         "Sales Submodule",
         sales_options,
@@ -63,7 +84,7 @@ with st.sidebar.expander("Sales", expanded=False):
 
 
 with st.sidebar.expander("Inventory", expanded=False):
-    inv_options = ["Items", "Vendors", "Purchase Orders"]
+    inv_options = ["Items","Inventory Actions"] #["Items", "Vendors", "Purchase Orders"]
     inventory_sub = st.selectbox(
         "Inventory Submodule",
         inv_options,
@@ -73,13 +94,13 @@ with st.sidebar.expander("Inventory", expanded=False):
     )
 
 with st.sidebar.expander("Master", expanded=False):
-    management_option = ["Lead","Activities","Contacts"]
+    management_option = ["Contacts","Activities"]
     management_sub = st.selectbox(
         "Master Submodule",
         management_option,
         index=0,
         key="management_sub",
-        on_change=select_lead
+        on_change=select_master
     )
 
 with st.sidebar.expander("Warenty & Services", expanded=False):
@@ -99,16 +120,18 @@ main = st.session_state.main_menu
 if main == "Home":
     home_page()
     
+    
+    
 elif main == "Customer Management":
     sub = st.session_state.management_sub
-    if sub == "Lead":
-        # lead_page()
+    if sub == "Contacts":
+        business_partner()
         st.info("Lead view (implement form/list)")
     elif sub == "Activities":
         st.title("📞 Activities")
         activities()
-    elif sub == "Contacts":
-        business_partner()
+    
+        
 
 elif main == "Sales":
     sub = st.session_state.sales_sub
@@ -118,7 +141,7 @@ elif main == "Sales":
     elif sub == "Quotations":
         st.title("📜 Quotation")
         quotation_page()
-    elif sub == "Leads":
+    elif sub == "Business Leads":
         lead_page()
 
 elif main == "Inventory":
@@ -126,15 +149,17 @@ elif main == "Inventory":
     if inv == "Items":
         st.title("🏬 Inventory")
         inventory_page()
+    elif inv == "Inventory Actions":
+        st.info("Inventory Actions view (implement form/list) comming soon!")
     # elif inv == "Item Master":
     #     st.title("📚 Item Masters")
     #     item_master("")
-    elif inv == "Vendors":
-        st.title("🏷️ Vendors")
-        vendor_form()
-    elif inv == "Purchase Orders":
-        st.title("🧾 Purchase Orders")
-        st.info("Purchase Orders view (implement form/list)")
+    # elif inv == "Vendors":
+    #     st.title("🏷️ Vendors")
+    #     vendor_form()
+    # elif inv == "Purchase Orders":
+    #     st.title("🧾 Purchase Orders")
+    #     st.info("Purchase Orders view (implement form/list)")
         
         
 elif main == "Warenty & Services":

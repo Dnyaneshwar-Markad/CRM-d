@@ -84,7 +84,17 @@ def lead_form(existing_data=None, lead_stages=None):
     c1, c2 = st.columns(2)
     with c1:
         name = st.text_input("Name", value=existing_data["Name"] if existing_data else "",help="Enter the full name of the Lead/Opportunity.")
-        mobile = st.text_input("Mobile Number", value=existing_data["Mobile"] if existing_data else "", help="Enter the contact mobile number.")
+        mobile_input = st.text_input(
+            "Mobile Number",
+            value=existing_data["Mobile"] if existing_data else "",
+            max_chars=10,
+        )
+        if not mobile_input.isdigit():
+            pass  # Allow empty or non-digit input for now
+        elif len(mobile_input) != 10:
+            st.warning("Enter a valid 10-digit mobile number.")
+        mobile = mobile_input
+
         email = st.text_input("Business Email", value=existing_data["Email"] if existing_data else "", help="Enter a valid business email address.")
     with c2:
         # --- Initialize the list of industries in session state ---
@@ -214,6 +224,8 @@ def lead_form(existing_data=None, lead_stages=None):
         for stage in lead_stages:
             stage["potentialAmount"] = potentialAmount
             stage["weightedAmount"] = potentialAmount * interest / 100 if interest else 0
+            stage["salesEmployee"] = sales
+            stage["owner"] = owner
 
 
         # Display stages in editable form
@@ -225,7 +237,6 @@ def lead_form(existing_data=None, lead_stages=None):
         )
         lead_stages = updated_stages
 
-        # --- Now show a clickable "Activity" column ---
         # --- Now show a clickable "Activity" column ---
         st.divider()
         st.markdown("#### 🎯 Click Activity to Open Activity Form")
@@ -243,7 +254,7 @@ def lead_form(existing_data=None, lead_stages=None):
         for idx, stage in enumerate(lead_stages):
             stage_name = stage.get("stage", "Lead")
 
-            cols = st.columns([2, 2, 2, 1, 1])
+            cols = st.columns([1, 2, 2, 1, 1])
             with cols[0]:
                 st.write(f"**Stage:** {stage_name}")
             with cols[1]:
@@ -268,7 +279,7 @@ def lead_form(existing_data=None, lead_stages=None):
                     "Activity", "Subject", "Assigned To", "Start", "End", "Priority", "Activity Stage"
                 ]
                 valid_columns = [col for col in columns_to_show if col in related_activities.columns]
-                st.dataframe(related_activities[valid_columns], use_container_width=True, hide_index=True)
+                st.data_editor(related_activities[valid_columns],num_rows="dynamic", use_container_width=True)
             else:
                 st.info(f"No activities logged yet for **{stage_name}**.")
 
